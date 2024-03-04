@@ -36,24 +36,27 @@ elem = []
 w = 0
 noeud.append({'r': r_int, 'z': 300})
 
-# Maillage virole
-for k in range(2, nbr_elem_virole + 2):
+# mesh ferrule (cylindrical emptly ring)
+for k in range(nbr_elem_virole):
     r = r_int
-    z = noeud[0]['z'] - np.sin(angle_virole) * (h / nbr_elem_virole * (k - 1))
+    z = noeud[0]['z'] - np.sin(angle_virole) * (h / nbr_elem_virole * (k + 1))
     noeud.append({'r': r, 'z': z})
     elem.append({
-        'noeud1': k - 1,
-        'noeud2': k,
+        'noeud1': k + 1,
+        'noeud2': k + 2,
         'E1': E1,
         'E2': E2,
         'nu12': v12,
-        'type': 1,  # coque cylindrique
+        'type': 1,  # cylindrical shell
         'epaiss': t,
         'longueur': h / nbr_elem_virole,
-        'rd': noeud[k-1]['r'],
-        'rg': noeud[k-2]['r'],
+        'rd': noeud[k+1]['r'],
+        'rg': noeud[k+2]['r'],
         'angle': 0
     })
+
+
+# Up to here the code has been checked.
 
 angle = [168.749161, 146.250778, 123.750511, 101.249802]
 
